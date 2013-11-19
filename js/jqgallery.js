@@ -4,7 +4,7 @@
  * E-mail: dmitry.r117@gmail.com
  * Date: 19 November 2013
  * 
- * Version: 0.2
+ * Version: 0.8.1
  * 
  * This is a slideshow. It zooms images in and out as it pans them.
  * This solution is built on top of JQuery library 1.10.2
@@ -28,26 +28,26 @@ jqGallerySlide.images = {};
 jqGallerySlide.images.img0 = {
 		'startTop'  : 0, 
 		'startLeft' : 0, 
-		'startWidth': 940, 
-		'endTop'    : -50, 
-		'endLeft'   : -10,
-		'endWidth'  : 1200 };
+		'startWidth': 100, 
+		'endTop'    : -200, 
+		'endLeft'   : -300,
+		'endWidth'  : 200 };
 
 jqGallerySlide.images.img1 = {
 		'startTop'  : 10, 
 		'startLeft' : 10, 
-		'startWidth': 940, 
-		'endTop'    : -20, 
-		'endLeft'   : -150,
-		'endWidth'  : 1200 };
+		'startWidth': 100, 
+		'endTop'    : -100, 
+		'endLeft'   : -300,
+		'endWidth'  : 200 };
 
 jqGallerySlide.images.img2 = {
 		'startTop'  : 15, 
 		'startLeft' : 15, 
-		'startWidth': 940, 
-		'endTop'    : -100, 
-		'endLeft'   : -80,
-		'endWidth'  : 1200 };
+		'startWidth': 100, 
+		'endTop'    : -150, 
+		'endLeft'   : -250,
+		'endWidth'  : 200 };
 
 // function initializes the scene and plays first image right away
 // then activates transition and plays second image through transition as well
@@ -74,8 +74,8 @@ jqGallerySlide.rotate = function(initial) {
 	
 	jqGallerySlide.moveZoom(jqGallerySlide.next);
 	
-	$('#jqgallery-slideshow img').eq(jqGallerySlide.current).fadeOut(5000, function() {
-		$('#jqgallery-slideshow img').each(function(i) {
+	$('#jqgallery-slideshow .jqslide').eq(jqGallerySlide.current).fadeOut(2000, function() {
+		$('#jqgallery-slideshow .jqslide').each(function(i) {
 			$(this).css('zIndex', 
 				((jqGallerySlide.imgNum - i) + jqGallerySlide.current) % jqGallerySlide.imgNum);
 		});
@@ -84,7 +84,7 @@ jqGallerySlide.rotate = function(initial) {
 		$('#jqgallery-slideshow img').eq(jqGallerySlide.current).css({
 			'top'  : jqGallerySlide.images['img' + jqGallerySlide.current]['startTop'] + 'px',
 			'left' : jqGallerySlide.images['img' + jqGallerySlide.current]['startLeft'] + 'px',
-			'width': jqGallerySlide.images['img' + jqGallerySlide.current]['startWidth'] + 'px'	
+			'width': jqGallerySlide.images['img' + jqGallerySlide.current]['startWidth'] + '%',
 		});
 		setTimeout(function() {jqGallerySlide.rotate(++jqGallerySlide.current);}, 4000);
 	});
@@ -96,10 +96,10 @@ jqGallerySlide.getCurrent = function(initial) {
 
 jqGallerySlide.moveZoom = function(current) {
 	$('#jqgallery-slideshow img').eq(current).animate({
-		width : jqGallerySlide.images['img' + current]['endWidth'],
-		top   : jqGallerySlide.images['img' + current]['endTop'],
-		left  : jqGallerySlide.images['img' + current]['endLeft'],
-	},{duration: 3000, queue: false});
+		width : jqGallerySlide.images['img' + current]['endWidth'] + '%',
+		top   : jqGallerySlide.images['img' + current]['endTop'] + 'px',
+		left  : jqGallerySlide.images['img' + current]['endLeft'] + 'px',
+	},{duration: 7500, queue: false});
 }; 
 
 jqGallerySlide.setup = function() {
@@ -109,7 +109,7 @@ jqGallerySlide.setup = function() {
 		jqGallerySlide.selection.find('img:eq('+ i +')').css({
 				'top' : jqGallerySlide.images['img' + i]['startTop'] + 'px',
 				'left': jqGallerySlide.images['img' + i]['startLeft'] + 'px',
-				'width': jqGallerySlide.images['img' + i]['startWidth'] + 'px'
+				'width': jqGallerySlide.images['img' + i]['startWidth'] + '%',
 			});
 	}
 };
