@@ -17,9 +17,10 @@ $(document).ready(function() {
 
 jqGallerySlide = {};
 // Set these values based on how many images are present
-jqGallerySlide.numImg  = 3;
+jqGallerySlide.imgNum  = 3;
 jqGallerySlide.current = 1;
 jqGallerySlide.next    = 0;
+jqGallerySlide.firstAnim = true;
 
 jqGallerySlide.images = {};
 
@@ -53,40 +54,44 @@ jqGallerySlide.images.img2 = {
 // once first image faded - it resets its position
 jqGallerySlide.main = function(initial) {
 	// set up required constants
-	jqGallerySlide.current = jqGallerySlide.getCurrent(1);
-	jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
-	jqGallerySlide.selection = $('#jqgallery-slideshow');
-	// set up the scene
-	jqGallerySlide.setup();
-	// play initial animation
-	jqGallerySlide.moveZoom(jqGallerySlide.next);
+	if (jqGallerySlide.firstAnim) {
+		jqGallerySlide.current = jqGallerySlide.getCurrent(1);
+		jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
+		jqGallerySlide.selection = $('#jqgallery-slideshow');
+		// set up the scene
+		jqGallerySlide.setup();
+		// play initial animation
+		jqGallerySlide.moveZoom(jqGallerySlide.next);
+		jqGallerySlide.firstAnim = false;
+	}
 	
-	jqGallerySlide.rotate(1);
+	jqGallerySlide.rotate(jqGallerySlide.current);
 };
 
 jqGallerySlide.rotate = function(initial) {
-	var imgNum = $('#jqgallery-slideshow img').length;
-	current = initial % imgNum;
+	jqGallerySlide.current = jqGallerySlide.getCurrent(initial);
+	jqGallerySlide.next = jqGallerySlide.getCurrent(initial + 1);
 	
-	//jqGallerySlide.moveZoom(current);
+	jqGallerySlide.moveZoom(jqGallerySlide.next);
 	
-	$('#jqgallery-slideshow img').eq(current).fadeOut(5000, function() {
+	$('#jqgallery-slideshow img').eq(jqGallerySlide.current).fadeOut(5000, function() {
 		$('#jqgallery-slideshow img').each(function(i) {
-			$(this).css('zIndex', ((imgNum - i) + current) % imgNum);
+			$(this).css('zIndex', 
+				((jqGallerySlide.imgNum - i) + jqGallerySlide.current) % jqGallerySlide.imgNum);
 		});
 		$(this).show();
 		// reset sizes back
-		$('#jqgallery-slideshow img').eq(current).css({
-			'top'  : jqGallerySlide.images['img' + current]['startTop'] + 'px',
-			'left' : jqGallerySlide.images['img' + current]['startLeft'] + 'px',
-			'width': jqGallerySlide.images['img' + current]['startWidth'] + 'px'	
+		$('#jqgallery-slideshow img').eq(jqGallerySlide.current).css({
+			'top'  : jqGallerySlide.images['img' + jqGallerySlide.current]['startTop'] + 'px',
+			'left' : jqGallerySlide.images['img' + jqGallerySlide.current]['startLeft'] + 'px',
+			'width': jqGallerySlide.images['img' + jqGallerySlide.current]['startWidth'] + 'px'	
 		});
-		setTimeout(function() {jqGallerySlide.rotate(++current);}, 4000);
+		setTimeout(function() {jqGallerySlide.rotate(++jqGallerySlide.current);}, 4000);
 	});
 };
 
 jqGallerySlide.getCurrent = function(initial) {
-	return initial % jqGallerySlide.numImg;
+	return initial % jqGallerySlide.imgNum;
 };
 
 jqGallerySlide.moveZoom = function(current) {
