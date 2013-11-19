@@ -16,6 +16,7 @@ $(document).ready(function() {
 	
 	$(window).resize(function() {
 		jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
+		$('#jqgallery-slideshow img').stop(true);
 		jqGallerySlide.setup();
 	});
 });
@@ -129,6 +130,3 @@ jqGallerySlide.widthRatio = function() {
 	//alert('width: ' + width + ' ratio: ' + ratio);
 	return ratio;
 };
-
-
-
