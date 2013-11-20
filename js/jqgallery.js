@@ -82,8 +82,8 @@ jqGallerySlide.main = function() {
 	});
 	$(window).load(function() {
 		setTimeout(function() {
-				jqGallerySlide.selection.fadeIn(2000);
-			}, 3000);
+			jqGallerySlide.selection.fadeIn(2000);
+		}, 3000);
 	});
 };
 
