@@ -82,21 +82,28 @@ jqGallerySlide.main = function() {
 	});
 	$(window).load(function() {
 		setTimeout(function() {
-			jqGallerySlide.selection.fadeIn(2000);
-		}, 3000);
+			jqGallerySlide.selection.fadeIn(1000);
+		}, 1000);
 	});
 };
 
 jqGallerySlide.slideShowInit = function(initial) {
 	// set up required constants
 	// set up the scene
-	jqGallerySlide.current = jqGallerySlide.getCurrent(1);
-	jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
-	jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
-	jqGallerySlide.setup();
-	// play initial animation
-	jqGallerySlide.moveZoom(jqGallerySlide.next);
-	jqGallerySlide.rotateZoom(1);
+	if (jqGallerySlide.imgNum > 1) {
+		var firstnum = jqGallerySlide.imgNum - 2;
+		var nextnum  = jqGallerySlide.imgNum - 1;
+		jqGallerySlide.current = jqGallerySlide.getCurrent(firstnum);
+		jqGallerySlide.next    = jqGallerySlide.getCurrent(nextnum);
+		
+		jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
+		jqGallerySlide.setup();
+		// play initial animation
+		jqGallerySlide.moveZoom(jqGallerySlide.next);
+		jqGallerySlide.rotateZoom(jqGallerySlide.current);
+	}else{
+		jqGallerySlide.setup();
+	}
 };
 
 jqGallerySlide.rotateZoom = function(initial) {
@@ -140,8 +147,7 @@ jqGallerySlide.setup = function() {
 		'height': Math.ceil(jqGallerySlide.selection.width()*jqGallerySlide.whRatio) + 'px'
 	});
 	
-	var imgNum = jqGallerySlide.selection.find('img').length;
-	for (var i = 0; i < imgNum; i++) {
+	for (var i = 0; i < jqGallerySlide.imgNum; i++) {
 		jqGallerySlide.selection.find('img:eq('+ i +')').css({
 				'top' : Math.ceil(jqGallerySlide.images['img' + i]['startTop']*jqGallerySlide.widthRat) + 'px',
 				'left': Math.ceil(jqGallerySlide.images['img' + i]['startLeft']*jqGallerySlide.widthRat) + 'px',
