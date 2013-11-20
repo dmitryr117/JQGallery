@@ -18,10 +18,17 @@
 	border: 2px solid white;
 	border-radius: 15px;
 	color: white;
-	top: 50px;
-	left: 100px;
+	top: 10%;
+	left: 5%;
 	padding: 15px;
-	background: rgba(0,0,0,0.6);
+	background: rgba(0,0,0,0.5);
+	box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
+}
+
+.jqslideshow h4 {
+	margin: 0;
+	padding: 0 0 10px 0;
+	
 }
 
 .jqslide {

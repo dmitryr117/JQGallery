@@ -4,7 +4,7 @@
  * E-mail: dmitry.r117@gmail.com
  * Date: 19 November 2013
  * 
- * Version: 0.8.1
+ * Version: 0.9.2
  * 
  * This is a slideshow. It zooms images in and out as it pans them.
  * This solution is built on top of JQuery library 1.10.2
@@ -28,6 +28,7 @@ jqGallerySlide.current   = 0;
 jqGallerySlide.next      = 0;
 jqGallerySlide.maxWidth  = 940;
 jqGallerySlide.widthRat  = 1;
+jqGallerySlide.whRatio   = 0.33;
 
 jqGallerySlide.images = {};
 
@@ -61,11 +62,11 @@ jqGallerySlide.images.img2 = {
 // once first image faded - it resets its position
 jqGallerySlide.main = function(initial) {
 	// set up required constants
+	// set up the scene
+	jqGallerySlide.setup();
 	jqGallerySlide.current = jqGallerySlide.getCurrent(1);
 	jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
 	jqGallerySlide.selection = $('#jqgallery-slideshow');
-	// set up the scene
-	jqGallerySlide.setup();
 	jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
 	// play initial animation
 	jqGallerySlide.moveZoom(jqGallerySlide.next);
@@ -110,6 +111,10 @@ jqGallerySlide.moveZoom = function(current) {
 
 jqGallerySlide.setup = function() {
 	// setup css positions based on the jquery input
+	jqGallerySlide.selection.css({
+		'height': Math.ceil(jqGallerySlide.selection.width()*jqGallerySlide.whRatio) + 'px'
+	});
+	
 	var imgNum = jqGallerySlide.selection.find('img').length;
 	for (var i = 0; i < imgNum; i++) {
 		jqGallerySlide.selection.find('img:eq('+ i +')').css({
