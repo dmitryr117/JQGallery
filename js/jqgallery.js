@@ -13,17 +13,12 @@
 
 $(document).ready(function() {
 	jqGallerySlide.main();
-	
-	$(window).resize(function() {
-		jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
-		$('#jqgallery-slideshow img').stop(true);
-		jqGallerySlide.setup();
-	});
 });
 
 jqGallerySlide = {};
 // Set these values based on how many images are present
 jqGallerySlide.imgNum    = 5;
+jqGallerySlide.selection ='';
 jqGallerySlide.current   = 0;
 jqGallerySlide.next      = 0;
 jqGallerySlide.maxWidth  = 940;
@@ -76,25 +71,39 @@ jqGallerySlide.images.img4 = {
 // function initializes the scene and plays first image right away
 // then activates transition and plays second image through transition as well
 // once first image faded - it resets its position
-jqGallerySlide.main = function(initial) {
+jqGallerySlide.main = function() {
+	jqGallerySlide.selection = $('#jqgallery-slideshow');
+	jqGallerySlide.selection.hide();
+	jqGallerySlide.slideShowInit();
+	$(window).resize(function() {
+		jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
+		$('#jqgallery-slideshow img').stop(true,true);
+		jqGallerySlide.setup();
+	});
+	$(window).load(function() {
+		setTimeout(function() {
+				jqGallerySlide.selection.fadeIn(2000);
+			}, 3000);
+	});
+};
+
+jqGallerySlide.slideShowInit = function(initial) {
 	// set up required constants
 	// set up the scene
-	jqGallerySlide.selection = $('#jqgallery-slideshow');
-	jqGallerySlide.setup();
 	jqGallerySlide.current = jqGallerySlide.getCurrent(1);
 	jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
 	jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
+	jqGallerySlide.setup();
 	// play initial animation
-	//jqGallerySlide.moveZoom(jqGallerySlide.next);
-	
-	jqGallerySlide.rotateZoom(jqGallerySlide.current);
+	jqGallerySlide.moveZoom(jqGallerySlide.next);
+	jqGallerySlide.rotateZoom(1);
 };
 
 jqGallerySlide.rotateZoom = function(initial) {
 	jqGallerySlide.current = jqGallerySlide.getCurrent(initial);
 	jqGallerySlide.next = jqGallerySlide.getCurrent(initial + 1);
 	
-	//jqGallerySlide.moveZoom(jqGallerySlide.next);
+	jqGallerySlide.moveZoom(jqGallerySlide.next);
 	
 	$('#jqgallery-slideshow .jqslide').eq(jqGallerySlide.current).fadeOut(2000, function() {
 		$('#jqgallery-slideshow .jqslide').each(function(i) {
@@ -103,11 +112,11 @@ jqGallerySlide.rotateZoom = function(initial) {
 		});
 		$(this).show();
 		// reset sizes back
-		/*$('#jqgallery-slideshow img').eq(jqGallerySlide.current).css({
+		$('#jqgallery-slideshow img').eq(jqGallerySlide.current).css({
 			'top'  : Math.ceil(jqGallerySlide.images['img' + jqGallerySlide.current]['startTop']*jqGallerySlide.widthRat) + 'px',
 			'left' : Math.ceil(jqGallerySlide.images['img' + jqGallerySlide.current]['startLeft']*jqGallerySlide.widthRat) + 'px',
 			'width': Math.ceil(jqGallerySlide.images['img' + jqGallerySlide.current]['startWidth']*jqGallerySlide.widthRat) + 'px',
-		});*/
+		});
 		setTimeout(function() {jqGallerySlide.rotateZoom(++jqGallerySlide.current);}, 4000);
 	});
 };
