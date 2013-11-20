@@ -23,7 +23,7 @@ $(document).ready(function() {
 
 jqGallerySlide = {};
 // Set these values based on how many images are present
-jqGallerySlide.imgNum    = 3;
+jqGallerySlide.imgNum    = 5;
 jqGallerySlide.current   = 0;
 jqGallerySlide.next      = 0;
 jqGallerySlide.maxWidth  = 940;
@@ -57,21 +57,38 @@ jqGallerySlide.images.img2 = {
 		'endLeft'   : -350,
 		'endWidth'  : 1500 };
 
+jqGallerySlide.images.img3 = {
+		'startTop'  : 0, 
+		'startLeft' : 0, 
+		'startWidth': 940, 
+		'endTop'    : -250, 
+		'endLeft'   : -400,
+		'endWidth'  : 1500 };
+
+jqGallerySlide.images.img4 = {
+		'startTop'  : 0, 
+		'startLeft' : 0, 
+		'startWidth': 940, 
+		'endTop'    : -350, 
+		'endLeft'   : -400,
+		'endWidth'  : 1500 };
+
 // function initializes the scene and plays first image right away
 // then activates transition and plays second image through transition as well
 // once first image faded - it resets its position
 jqGallerySlide.main = function(initial) {
 	// set up required constants
 	// set up the scene
-	jqGallerySlide.setup();
+	jqGallerySlide.selection = $('#jqgallery-slideshow');
 	jqGallerySlide.current = jqGallerySlide.getCurrent(1);
 	jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
-	jqGallerySlide.selection = $('#jqgallery-slideshow');
 	jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
+	jqGallerySlide.setup();
+	
 	// play initial animation
 	jqGallerySlide.moveZoom(jqGallerySlide.next);
 	
-	jqGallerySlide.rotateZoom(jqGallerySlide.current);
+	jqGallerySlide.rotateZoom(1);
 };
 
 jqGallerySlide.rotateZoom = function(initial) {
@@ -114,9 +131,7 @@ jqGallerySlide.setup = function() {
 	jqGallerySlide.selection.css({
 		'height': Math.ceil(jqGallerySlide.selection.width()*jqGallerySlide.whRatio) + 'px'
 	});
-	
-	var imgNum = jqGallerySlide.selection.find('img').length;
-	for (var i = 0; i < imgNum; i++) {
+	for (var i = 0; i < jqGallerySlide.imgNum; i++) {
 		jqGallerySlide.selection.find('img:eq('+ i +')').css({
 				'top' : Math.ceil(jqGallerySlide.images['img' + i]['startTop']*jqGallerySlide.widthRat) + 'px',
 				'left': Math.ceil(jqGallerySlide.images['img' + i]['startLeft']*jqGallerySlide.widthRat) + 'px',
