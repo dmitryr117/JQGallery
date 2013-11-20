@@ -80,22 +80,21 @@ jqGallerySlide.main = function(initial) {
 	// set up required constants
 	// set up the scene
 	jqGallerySlide.selection = $('#jqgallery-slideshow');
+	jqGallerySlide.setup();
 	jqGallerySlide.current = jqGallerySlide.getCurrent(1);
 	jqGallerySlide.next    = jqGallerySlide.getCurrent(2);
 	jqGallerySlide.widthRat = jqGallerySlide.widthRatio();
-	jqGallerySlide.setup();
-	
 	// play initial animation
-	jqGallerySlide.moveZoom(jqGallerySlide.next);
+	//jqGallerySlide.moveZoom(jqGallerySlide.next);
 	
-	jqGallerySlide.rotateZoom(1);
+	jqGallerySlide.rotateZoom(jqGallerySlide.current);
 };
 
 jqGallerySlide.rotateZoom = function(initial) {
 	jqGallerySlide.current = jqGallerySlide.getCurrent(initial);
 	jqGallerySlide.next = jqGallerySlide.getCurrent(initial + 1);
 	
-	jqGallerySlide.moveZoom(jqGallerySlide.next);
+	//jqGallerySlide.moveZoom(jqGallerySlide.next);
 	
 	$('#jqgallery-slideshow .jqslide').eq(jqGallerySlide.current).fadeOut(2000, function() {
 		$('#jqgallery-slideshow .jqslide').each(function(i) {
@@ -104,11 +103,11 @@ jqGallerySlide.rotateZoom = function(initial) {
 		});
 		$(this).show();
 		// reset sizes back
-		$('#jqgallery-slideshow img').eq(jqGallerySlide.current).css({
+		/*$('#jqgallery-slideshow img').eq(jqGallerySlide.current).css({
 			'top'  : Math.ceil(jqGallerySlide.images['img' + jqGallerySlide.current]['startTop']*jqGallerySlide.widthRat) + 'px',
 			'left' : Math.ceil(jqGallerySlide.images['img' + jqGallerySlide.current]['startLeft']*jqGallerySlide.widthRat) + 'px',
 			'width': Math.ceil(jqGallerySlide.images['img' + jqGallerySlide.current]['startWidth']*jqGallerySlide.widthRat) + 'px',
-		});
+		});*/
 		setTimeout(function() {jqGallerySlide.rotateZoom(++jqGallerySlide.current);}, 4000);
 	});
 };
@@ -131,7 +130,9 @@ jqGallerySlide.setup = function() {
 	jqGallerySlide.selection.css({
 		'height': Math.ceil(jqGallerySlide.selection.width()*jqGallerySlide.whRatio) + 'px'
 	});
-	for (var i = 0; i < jqGallerySlide.imgNum; i++) {
+	
+	var imgNum = jqGallerySlide.selection.find('img').length;
+	for (var i = 0; i < imgNum; i++) {
 		jqGallerySlide.selection.find('img:eq('+ i +')').css({
 				'top' : Math.ceil(jqGallerySlide.images['img' + i]['startTop']*jqGallerySlide.widthRat) + 'px',
 				'left': Math.ceil(jqGallerySlide.images['img' + i]['startLeft']*jqGallerySlide.widthRat) + 'px',
